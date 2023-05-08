@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class LoginViewController: UIViewController {
     
@@ -20,190 +21,126 @@ class LoginViewController: UIViewController {
         navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.foregroundColor : UIColor.white ]
         addSubviews()
         setContstraints()
-        
     }
     
-    private let contentView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private let contentView = UIView()
+    private let emailField = UITextField()
+    private let passwordField = UITextField()
+    private let signInButton = UIButton()
+    private let buttonStackView = UIStackView()
+    private let forgotPasswordButton = UIButton()
+    private let forgotPassword = UILabel()
+    private let labelStackView = UIStackView()
     
-    private let emailField: UITextField = {
-        
-        let email = UITextField()
-        email.translatesAutoresizingMaskIntoConstraints = false
-        email.backgroundColor = #colorLiteral(red: 0.1160912886, green: 0.1620997787, blue: 0.2332904935, alpha: 1)
-        email.leftViewMode = .always
-        email.attributedPlaceholder = NSAttributedString (
-            string: "Email",
-            attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.58187747, green: 0.6370299459, blue: 0.7215286493, alpha: 1)])
-        email.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: email.frame.height))
-        email.keyboardType = .emailAddress
-        email.textColor = .white
-        email.font = UIFont.systemFont(ofSize: 16)
-        email.layer.cornerRadius = 8
-        email.autocapitalizationType = .none
-        email.returnKeyType = .done
-        
-        return email
-    }()
-    
-    private let passwordField: UITextField = {
-        
-        let password = UITextField()
-        password.translatesAutoresizingMaskIntoConstraints = false
-        password.layer.borderColor = UIColor.lightGray.cgColor
-        password.layer.borderWidth = 0
-        password.attributedPlaceholder = NSAttributedString (
-            string: "Password",
-            attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.58187747, green: 0.6370299459, blue: 0.7215286493, alpha: 1)])
-        password.leftViewMode = .always
-        password.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: password.frame.height))
-        password.keyboardType = .default
-        password.textColor = .white
-        password.font = UIFont.systemFont(ofSize: 16)
-        password.autocapitalizationType = .none
-        password.backgroundColor = #colorLiteral(red: 0.1160912886, green: 0.1620997787, blue: 0.2332904935, alpha: 1)
-        password.returnKeyType = .done
-        password.layer.cornerRadius = 8
-        password.clipsToBounds = true
-        password.isSecureTextEntry = true
-        return password
-    }()
-    
-    private let signEmailButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle(" Sign In with Apple", for: .normal)
-        button.setImage(UIImage(named: "apple"), for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        button.layer.cornerRadius = 8
-        button.clipsToBounds = true
-        return button
-    }()
-    
-    private let signGoogleButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle(" Sign In with Google", for: .normal)
-        button.setImage(UIImage(named: "google"), for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        button.layer.cornerRadius = 8
-        button.clipsToBounds = true
-        return button
-    }()
-    
-    private let signInButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Sign In", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = #colorLiteral(red: 0.9191874266, green: 0.3177170753, blue: 0.1384931207, alpha: 1)
-        button.layer.cornerRadius = 8
-        button.addTarget(nil, action: #selector(signIn), for: .touchUpInside)
-        button.clipsToBounds = true
-        return button
-    }()
-    @objc func signIn(){
-        print("hello")
-        let forgotPassword = AllRoomsViewController()
-        navigationController?.pushViewController(forgotPassword, animated: true)
-    }
-    
-    private let buttonStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .vertical
-        stack.distribution = .fillEqually
-        stack.spacing = 12
-        stack.clipsToBounds = true
-        return stack
-    }()
-    
-    private let signInWithEmailLabel: UILabel = {
-        let label = UILabel()
-        label.text = "———    Or sign in with email    ———"
-        label.textAlignment = .center
-        label.textColor = .white
-        label.layer.opacity = 0.5
-        return label
-    }()
-    
-    var forgotPasswordButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Forgot password?", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitleColor(#colorLiteral(red: 0.1551918685, green: 0.7838412523, blue: 0.2506273389, alpha: 1), for: .normal)
-        button.addTarget(nil, action: #selector(forgotPasswordTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .darkContent
-    }
-    
-    var forgotPassword: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = .white
-        label.text = "Don't have an account? "
-        return label
-    }()
-    
-   
-    
-    @objc func forgotPasswordTapped(){
-        let forgotPassword = RegistrationViewController()
-        navigationController?.pushViewController(forgotPassword, animated: true)
-        
-    }
-    
-    var labelStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .horizontal
-        stack.spacing = 1
-        stack.clipsToBounds = true
-        return stack
-    }()
-    
-    func addSubviews(){
+    func addSubviews() {
         view.addSubview(contentView)
         contentView.addSubview(buttonStackView)
-        buttonStackView.addArrangedSubview(signEmailButton)
-        buttonStackView.addArrangedSubview(signGoogleButton)
-        buttonStackView.addArrangedSubview(signInWithEmailLabel)
-        buttonStackView.addArrangedSubview(emailField)
-        buttonStackView.addArrangedSubview(passwordField)
-        buttonStackView.addArrangedSubview(signInButton)
-        labelStackView.addArrangedSubview(forgotPasswordButton)
+        contentView.addSubview(signInButton)
         contentView.addSubview(labelStackView)
     }
     
-    func setContstraints(){
-        NSLayoutConstraint.activate([
-            contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: view.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            buttonStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 124),
-            buttonStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            buttonStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            buttonStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -300),
-            
-            labelStackView.topAnchor.constraint(equalTo: buttonStackView.bottomAnchor, constant: 24),
-            labelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 70),
-            labelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -70),
-            labelStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -150)
-        ])
+    func setContstraints() {
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        configureButtonStackView()
+        configureSignInButton()
+        signInButton.snp.makeConstraints { make in
+            make.top.equalTo(buttonStackView.snp.bottom).offset(16)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
+            make.height.equalTo(50)
+        }
+        
+        configureLabelStackView()
+    }
+    
+    func configureButtonStackView() {
+        
+        buttonStackView.axis = .vertical
+        buttonStackView.spacing = 12
+        buttonStackView.addArrangedSubview(emailField)
+        buttonStackView.addArrangedSubview(passwordField)
+       
+        buttonStackView.snp.makeConstraints { make in
+//            make.top.equalTo(contentView.snp.top).offset(124)
+            make.centerY.equalTo(contentView.snp.centerY)
+            make.leading.equalTo(contentView.snp.leading).offset(24)
+            make.trailing.equalTo(contentView.snp.trailing).offset(-24)
+        }
+        
+        configureEmailField()
+        configurePasswordField()
+    }
+    
+    func configureEmailField() {
+        emailField.placeholder = "Email"
+        emailField.backgroundColor = #colorLiteral(red: 0.1160912886, green: 0.1620997787, blue: 0.2332904935, alpha: 1)
+        emailField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+        emailField.leftViewMode = .always
+        emailField.font = UIFont.systemFont(ofSize: 16)
+        emailField.textColor = .white
+        emailField.layer.cornerRadius = 8
+        emailField.snp.makeConstraints { make in
+            make.height.equalTo(50)
+        }
+    }
+    
+    func configurePasswordField() {
+        passwordField.placeholder = "Password"
+        passwordField.backgroundColor = #colorLiteral(red: 0.1160912886, green: 0.1620997787, blue: 0.2332904935, alpha: 1)
+        passwordField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+        passwordField.leftViewMode = .always
+        passwordField.font = UIFont.systemFont(ofSize: 16)
+        passwordField.textColor = .white
+        passwordField.layer.cornerRadius = 8
+        passwordField.snp.makeConstraints { make in
+            make.height.equalTo(50)
+        }
+    }
+    
+    func configureLabelStackView() {
+        labelStackView.axis = .horizontal
+        labelStackView.spacing = 1
+        labelStackView.addArrangedSubview(forgotPassword)
+        labelStackView.addArrangedSubview(forgotPasswordButton)
+        
+        labelStackView.snp.makeConstraints { make in
+            make.top.equalTo(signInButton.snp.bottom).offset(24)
+            make.centerX.equalToSuperview()
+        }
+        
+        configureForgotPasswordButton()
+        configureForgotPasswordLabel()
+    }
+    
+    func configureForgotPasswordButton() {
+        forgotPasswordButton.setTitle("Forgot password?", for: .normal)
+        forgotPasswordButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+        forgotPasswordButton.setTitleColor(#colorLiteral(red: 0.9191874266, green: 0.3177170753, blue: 0.1384931207, alpha: 1), for: .normal)
+        //forgotPasswordButton.addTarget(nil, action: #selector(forgotPasswordTapped), for: .touchUpInside)
+    }
+    
+    func configureForgotPasswordLabel() {
+        forgotPassword.text = "Don't have an account? "
+        forgotPassword.font = .systemFont(ofSize: 16, weight: .regular)
+        forgotPassword.textColor = .white
+    }
+
+    func configureSignInButton() {
+        signInButton.setTitle("Sign In", for: .normal)
+        signInButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
+        signInButton.setTitleColor(.white, for: .normal)
+        signInButton.backgroundColor = #colorLiteral(red: 0.9191874266, green: 0.3177170753, blue: 0.1384931207, alpha: 1)
+        signInButton.layer.cornerRadius = 8
+        signInButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
+    }
+    
+    @objc func signIn() {
+        print("hello")
+        let forgotPassword = AllRoomsViewController()
+        navigationController?.pushViewController(forgotPassword, animated: true)
     }
 }

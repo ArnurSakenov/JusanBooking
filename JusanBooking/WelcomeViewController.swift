@@ -61,7 +61,7 @@ class WelcomeViewController: UIViewController {
         button.setImage(UIImage(named: "mail"), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = #colorLiteral(red: 0.1551918685, green: 0.7838412523, blue: 0.2506273389, alpha: 1)
+        button.backgroundColor = #colorLiteral(red: 0.9191874266, green: 0.3177170753, blue: 0.1384931207, alpha: 1)
         button.addTarget(nil, action: #selector(signEmailTap), for: .touchUpInside)
         button.layer.cornerRadius = 8
         button.clipsToBounds = true
@@ -73,7 +73,7 @@ class WelcomeViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Sign up", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitleColor(#colorLiteral(red: 0.1551918685, green: 0.7838412523, blue: 0.2506273389, alpha: 1), for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.9191874266, green: 0.3177170753, blue: 0.1384931207, alpha: 1), for: .normal)
         button.addTarget(nil, action: #selector(signUp), for: .touchUpInside)
         return button
     }()
@@ -89,7 +89,7 @@ class WelcomeViewController: UIViewController {
     
     
     @objc func signUp(){
-        let signUpVC = LoginViewController()
+        let signUpVC = SignUpViewController()
         navigationController?.pushViewController(signUpVC, animated: true)
     }
     
