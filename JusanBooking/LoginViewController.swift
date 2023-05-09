@@ -37,6 +37,7 @@ class LoginViewController: UIViewController {
         contentView.addSubview(buttonStackView)
         contentView.addSubview(signInButton)
         contentView.addSubview(labelStackView)
+        contentView.addSubview(welcomeLabel)
     }
     
     func setContstraints() {
@@ -53,10 +54,29 @@ class LoginViewController: UIViewController {
             make.trailing.equalToSuperview().offset(-24)
             make.height.equalTo(50)
         }
-        
+        welcomeLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(buttonStackView.snp.top).offset(-5)
+            make.leading.equalToSuperview().offset(24)
+            make.width.equalTo(214)
+            make.height.equalTo(60)
+        }
         configureLabelStackView()
     }
-    
+    private let welcomeLabel: UILabel = {
+        var view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.frame = CGRect(x: 0, y: 0, width: 214, height: 60)
+        view.backgroundColor = #colorLiteral(red: 0.06831727177, green: 0.09892369062, blue: 0.1742413342, alpha: 1)
+        view.textColor = #colorLiteral(red: 0.9191874266, green: 0.3177170753, blue: 0.1384931207, alpha: 1)
+        view.font = UIFont(name: "Montserrat", size: 24)
+        view.numberOfLines = 0
+        view.lineBreakMode = .byWordWrapping
+        var paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.02
+        // Line height: 30 pt
+        view.attributedText = NSMutableAttributedString(string: "Welcome,\nPlease Login First", attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
+        return view
+    }()
     func configureButtonStackView() {
         
         buttonStackView.axis = .vertical
