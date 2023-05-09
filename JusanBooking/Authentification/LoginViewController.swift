@@ -35,6 +35,8 @@ class LoginViewController: UIViewController {
     func addSubviews() {
         view.addSubview(contentView)
         contentView.addSubview(buttonStackView)
+        toggleVisibilityButton.addSubview(eyeIcon)
+        toggleVisibilityButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
         contentView.addSubview(signInButton)
         contentView.addSubview(labelStackView)
         contentView.addSubview(welcomeLabel)
@@ -58,17 +60,17 @@ class LoginViewController: UIViewController {
             make.bottom.equalTo(buttonStackView.snp.top).offset(-5)
             make.leading.equalToSuperview().offset(24)
             make.width.equalTo(214)
-            make.height.equalTo(60)
+            make.height.equalTo(100)
         }
         configureLabelStackView()
     }
     private let welcomeLabel: UILabel = {
         var view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.frame = CGRect(x: 0, y: 0, width: 214, height: 60)
+        view.frame = CGRect(x: 0, y: 0, width: 214, height: 100)
         view.backgroundColor = #colorLiteral(red: 0.06831727177, green: 0.09892369062, blue: 0.1742413342, alpha: 1)
         view.textColor = #colorLiteral(red: 0.9191874266, green: 0.3177170753, blue: 0.1384931207, alpha: 1)
-        view.font = UIFont(name: "Montserrat", size: 24)
+        view.font = UIFont.systemFont(ofSize: 24, weight: .regular)
         view.numberOfLines = 0
         view.lineBreakMode = .byWordWrapping
         var paragraphStyle = NSMutableParagraphStyle()
@@ -116,11 +118,30 @@ class LoginViewController: UIViewController {
         passwordField.font = UIFont.systemFont(ofSize: 16)
         passwordField.textColor = .white
         passwordField.layer.cornerRadius = 8
+        passwordField.rightViewMode = .always
+        passwordField.rightView = toggleVisibilityButton
         passwordField.snp.makeConstraints { make in
             make.height.equalTo(50)
         }
     }
-    
+    private let toggleVisibilityButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    private let eyeIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "eye")
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .white
+        return imageView
+    }()
+    @objc func togglePasswordVisibility() {
+        passwordField.isSecureTextEntry.toggle()
+        let eyeImageName = passwordField.isSecureTextEntry ? "eye" : "eye.slash"
+        eyeIcon.image = UIImage(systemName: eyeImageName)
+    }
     func configureLabelStackView() {
         labelStackView.axis = .horizontal
         labelStackView.spacing = 1

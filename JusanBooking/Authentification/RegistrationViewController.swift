@@ -16,7 +16,7 @@ class SignUpViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.foregroundColor : UIColor.white ]
         navigationController?.navigationBar.prefersLargeTitles = false
-       
+        
         addSubviews()
         setConstraints()
     }
@@ -44,7 +44,7 @@ class SignUpViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
     
     private let nameField: UITextField = {
         let login = UITextField()
@@ -98,7 +98,7 @@ class SignUpViewController: UIViewController {
         email.textColor = .white
         email.font = UIFont.systemFont(ofSize: 16)
         email.layer.cornerRadius = 8
-
+        
         email.autocapitalizationType = .none
         email.returnKeyType = .done
         
@@ -108,13 +108,13 @@ class SignUpViewController: UIViewController {
     }()
     
     private lazy var passwordField: UITextField = {
-       let password = UITextField()
+        let password = UITextField()
         password.translatesAutoresizingMaskIntoConstraints = false
         password.layer.borderColor = UIColor.lightGray.cgColor
         password.layer.borderWidth = 0
         password.attributedPlaceholder = NSAttributedString (
-        string: "Password",
-        attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.58187747, green: 0.6370299459, blue: 0.7215286493, alpha: 1)])
+            string: "Password",
+            attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0.58187747, green: 0.6370299459, blue: 0.7215286493, alpha: 1)])
         password.leftViewMode = .always
         password.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: password.frame.height))
         password.keyboardType = .default
@@ -156,7 +156,7 @@ class SignUpViewController: UIViewController {
         stack.clipsToBounds = true
         return stack
     }()
-
+    
     
     private let signInButton: UIButton = {
         let button = UIButton()
@@ -164,7 +164,7 @@ class SignUpViewController: UIViewController {
         button.setTitle("Sign In", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         button.setTitleColor(#colorLiteral(red: 0.9191874266, green: 0.3177170753, blue: 0.1384931207, alpha: 1), for: .normal)
-       // button.setTitleColor(#colorLiteral(red: 0.1551918685, green: 0.7838412523, blue: 0.2506273389, alpha: 1), for: .normal)
+        // button.setTitleColor(#colorLiteral(red: 0.1551918685, green: 0.7838412523, blue: 0.2506273389, alpha: 1), for: .normal)
         button.addTarget(nil, action: #selector(signIn), for: .touchUpInside)
         return button
     }()
@@ -177,7 +177,7 @@ class SignUpViewController: UIViewController {
         label.text = "Already have an account?"
         return label
     }()
-   
+    
     
     @objc func signIn (){
         let signIn = LoginViewController()
@@ -211,36 +211,36 @@ class SignUpViewController: UIViewController {
     }
     
     func setConstraints() {
-            contentView.snp.makeConstraints { (make) in
-                make.edges.equalToSuperview()
-            }
-            
-            buttonStackView.snp.makeConstraints { (make) in
-                make.centerY.equalTo(contentView.snp.centerY)
-                make.leading.equalTo(contentView.snp.leading).offset(24)
-                make.trailing.equalTo(contentView.snp.trailing).offset(-24)
-                make.height.equalTo(240)
-            }
-            
-         
-            [nameField, surnameField, emailField, passwordField].forEach { field in
-                field.snp.makeConstraints { (make) in
-                    make.height.equalTo(44)
-                }
-            }
-            
-            continueButton.snp.makeConstraints { (make) in
+        contentView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+        buttonStackView.snp.makeConstraints { (make) in
+            make.centerY.equalTo(contentView.snp.centerY)
+            make.leading.equalTo(contentView.snp.leading).offset(24)
+            make.trailing.equalTo(contentView.snp.trailing).offset(-24)
+            make.height.equalTo(240)
+        }
+        
+        
+        [nameField, surnameField, emailField, passwordField].forEach { field in
+            field.snp.makeConstraints { (make) in
                 make.height.equalTo(44)
             }
-            
-            labelStackView.snp.makeConstraints { (make) in
-                make.top.equalTo(buttonStackView.snp.bottom).offset(24)
-                make.centerX.equalTo(contentView.snp.centerX)
-            }
-            
-            haveAccountLabel.snp.makeConstraints { (make) in
-                make.centerY.equalTo(labelStackView.snp.centerY)
-            }
+        }
+        
+        continueButton.snp.makeConstraints { (make) in
+            make.height.equalTo(44)
+        }
+        
+        labelStackView.snp.makeConstraints { (make) in
+            make.top.equalTo(buttonStackView.snp.bottom).offset(24)
+            make.centerX.equalTo(contentView.snp.centerX)
+        }
+        
+        haveAccountLabel.snp.makeConstraints { (make) in
+            make.centerY.equalTo(labelStackView.snp.centerY)
+        }
         eyeIcon.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview()
@@ -248,11 +248,11 @@ class SignUpViewController: UIViewController {
             make.width.equalTo(24)
             make.height.equalTo(24)
         }
-
-            
-            signInButton.snp.makeConstraints { (make) in
-                make.centerY.equalTo(labelStackView.snp.centerY)
-            }
+        
+        
+        signInButton.snp.makeConstraints { (make) in
+            make.centerY.equalTo(labelStackView.snp.centerY)
         }
+    }
 }
 
