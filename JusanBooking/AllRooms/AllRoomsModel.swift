@@ -4,6 +4,7 @@
 //
 //  Created by Arnur Sakenov on 11.05.2023.
 //
+import Foundation
 struct RoomDTO: Decodable {
     let id: Int
     let description: String
@@ -26,11 +27,10 @@ struct RoomDTO: Decodable {
         let description: String
         
         struct Period: Decodable {
-            let bookingId: Int
             let clientId: Int
             let roomId: Int
-            let startTime: String
-            let endTime: String
+            let startTime: Date
+            let endTime: Date
         }
     }
 }
