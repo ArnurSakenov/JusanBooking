@@ -108,7 +108,7 @@ class SignUpViewController: UIViewController {
         
     }()
     
-    private lazy var passwordField: UITextField = {
+    private let passwordField: UITextField = {
         let password = UITextField()
         password.translatesAutoresizingMaskIntoConstraints = false
         password.layer.borderColor = UIColor.lightGray.cgColor
@@ -125,13 +125,10 @@ class SignUpViewController: UIViewController {
         password.backgroundColor = #colorLiteral(red: 0.1160912886, green: 0.1620997787, blue: 0.2332904935, alpha: 1)
         password.returnKeyType = .done
         password.layer.cornerRadius = 8
-        password.rightViewMode = .always
-        password.rightView = toggleVisibilityButton
-        password.clipsToBounds = true
         password.isSecureTextEntry = true
         return password
-        
     }()
+
     
     
     private let continueButton: UIButton = {
@@ -196,11 +193,13 @@ class SignUpViewController: UIViewController {
         return stack
     }()
     
-    func addSubviews(){
+    func addSubviews() {
         view.addSubview(contentView)
         contentView.addSubview(buttonStackView)
         toggleVisibilityButton.addSubview(eyeIcon)
         toggleVisibilityButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
+        passwordField.rightViewMode = .always
+        passwordField.rightView = toggleVisibilityButton
         buttonStackView.addArrangedSubview(nameField)
         buttonStackView.addArrangedSubview(surnameField)
         buttonStackView.addArrangedSubview(emailField)
@@ -211,24 +210,16 @@ class SignUpViewController: UIViewController {
         contentView.addSubview(labelStackView)
     }
     func register(name: String, surname: String, email: String, password: String) {
-        let parameters = [
-            "name": name,
-            "surname": surname,
-            "email": email,
-            "password": password
-        ]
-        
-        AF.request("http://34.230.74.15:8087/signup", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default)
-            .validate()
-            .response { response in
-                switch response.result {
-                case .success:
-                    print("Registration successful")
-                case let .failure(error):
-                    print(error)
+        NetworkManager.shared.register(name: name, surname: surname, email: email, password: password) { success, error in
+            if success {
+                print("Registration successful")
+            } else if let error = error {
+                print("Registration failed: \(error)")
             }
         }
     }
+
+
     @objc func continueButtonTapped() {
         guard let name = nameField.text, let surname = surnameField.text, let email = emailField.text, let password = passwordField.text else {
             print("All fields are required")

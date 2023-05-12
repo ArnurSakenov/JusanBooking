@@ -20,6 +20,7 @@
 		5F22885E2A0D243700B0FC9E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 5F22885D2A0D243700B0FC9E /* Alamofire */; };
 		5F2288602A0D373600B0FC9E /* AllRoomsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F22885F2A0D373600B0FC9E /* AllRoomsModel.swift */; };
 		5F2288632A0D3A6800B0FC9E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5F2288622A0D3A6800B0FC9E /* Kingfisher */; };
+		5F2288652A0E634200B0FC9E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2288642A0E634200B0FC9E /* NetworkManager.swift */; };
 		5F32B19E2A0A74250086DEA5 /* AllRoomsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F32B19D2A0A74250086DEA5 /* AllRoomsTableViewCell.swift */; };
 		5F32B1A02A0A892E0086DEA5 /* RoomDetailslViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F32B19F2A0A892E0086DEA5 /* RoomDetailslViewController.swift */; };
 		5F32B1A62A0A8A4C0086DEA5 /* RoomDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F32B1A52A0A8A4C0086DEA5 /* RoomDetailsTableViewCell.swift */; };
@@ -38,6 +39,7 @@
 		18F9CDB62A07B2FC008BBD37 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		5F22885A2A0CE5C800B0FC9E /* BookingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewController.swift; sourceTree = "<group>"; };
 		5F22885F2A0D373600B0FC9E /* AllRoomsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRoomsModel.swift; sourceTree = "<group>"; };
+		5F2288642A0E634200B0FC9E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		5F32B19D2A0A74250086DEA5 /* AllRoomsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRoomsTableViewCell.swift; sourceTree = "<group>"; };
 		5F32B19F2A0A892E0086DEA5 /* RoomDetailslViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDetailslViewController.swift; sourceTree = "<group>"; };
 		5F32B1A52A0A8A4C0086DEA5 /* RoomDetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDetailsTableViewCell.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 				18202C8E2A06807C0020D1BA /* Assets.xcassets */,
 				18202C902A06807C0020D1BA /* LaunchScreen.storyboard */,
 				18202C932A06807C0020D1BA /* Info.plist */,
+				5F2288642A0E634200B0FC9E /* NetworkManager.swift */,
 			);
 			path = JusanBooking;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F2288652A0E634200B0FC9E /* NetworkManager.swift in Sources */,
 				5F32B1A02A0A892E0086DEA5 /* RoomDetailslViewController.swift in Sources */,
 				18202C9A2A068F580020D1BA /* LoginViewController.swift in Sources */,
 				5F32B1A62A0A8A4C0086DEA5 /* RoomDetailsTableViewCell.swift in Sources */,

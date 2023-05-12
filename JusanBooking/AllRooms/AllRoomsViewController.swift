@@ -33,29 +33,20 @@ final class AllRoomsViewController: UIViewController {
     }
     var rooms = [RoomDTO]()
     private func fetchRooms() {
-        let defaults = UserDefaults.standard
-               let token = defaults.string(forKey: "jwtToken") ?? ""
-            print(token)
-               // Установите заголовки
-               let headers: HTTPHeaders = [
-                   "Authorization": "Bearer \(token)",
-                   "Accept": "application/json"
-               ]
-    AF.request("http://34.230.74.15:8087/rooms?id=0&email=string", headers: headers).response { response in
-               guard let data = response.data else { return }
-               do {
-                   // Декодируйте данные
-                   let decoder = JSONDecoder()
-                   self.rooms = try decoder.decode([RoomDTO].self, from: data)
-                   // Обновите таблицу
-                   DispatchQueue.main.async {
-                       self.tableView.reloadData()
-                   }
-               } catch {
-                   print(error)
-               }
-           }
-       }
+            let defaults = UserDefaults.standard
+            let token = defaults.string(forKey: "jwtToken") ?? ""
+            
+            NetworkManager.shared.fetchRooms(token: token) { (rooms, error) in
+                guard let fetchedRooms = rooms else {
+                    print("Error fetching rooms: \(String(describing: error))")
+                    return
+                }
+                self.rooms = fetchedRooms
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
     private func setConstraints(){
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)

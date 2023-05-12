@@ -104,6 +104,7 @@ class LoginViewController: UIViewController {
         emailField.leftViewMode = .always
         emailField.font = UIFont.systemFont(ofSize: 16)
         emailField.textColor = .white
+        emailField.autocapitalizationType = .none
         emailField.layer.cornerRadius = 8
         emailField.snp.makeConstraints { make in
             make.height.equalTo(50)
@@ -118,6 +119,7 @@ class LoginViewController: UIViewController {
         passwordField.font = UIFont.systemFont(ofSize: 16)
         passwordField.textColor = .white
         passwordField.layer.cornerRadius = 8
+        passwordField.autocapitalizationType = .none
         passwordField.rightViewMode = .always
         passwordField.rightView = toggleVisibilityButton
         passwordField.snp.makeConstraints { make in
@@ -157,37 +159,7 @@ class LoginViewController: UIViewController {
         configureForgotPasswordLabel()
     }
 
-    func login(email: String, password: String) {
-        let parameters: [String: Any] = [
-            "email": email,
-            "password": password
-        ]
-        
-        AF.request("http://34.230.74.15:8087/signin", method: .post, parameters: parameters, encoding: JSONEncoding.default)
-            .responseJSON { response in
-                switch response.result {
-                case .success(let value):
-                    if let JSON = value as? [String: Any] {
-                        if let token = JSON["jwtToken"] as? String {
-                            UserDefaults.standard.set(token, forKey: "jwtToken")
-                            let allRoomsViewController = AllRoomsViewController()
-                            self.navigationController?.pushViewController(allRoomsViewController, animated: true)
-                        } else {
-                            // Сообщение об ошибке входа
-                            let alertController = UIAlertController(title: "Error", message: "Invalid email or password.", preferredStyle: .alert)
-                            alertController.addAction(UIAlertAction(title: "OK", style: .default))
-                            self.present(alertController, animated: true)
-                        }
-                    }
-                case .failure(let error):
-                    print("Request failed with error: \(error)")
-                    let alertController = UIAlertController(title: "Error", message: "Invalid email or password.", preferredStyle: .alert)
-                    alertController.addAction(UIAlertAction(title: "OK", style: .default))
-                    self.present(alertController, animated: true)
-                }
-            }
-    }
-
+    
     func configureForgotPasswordButton() {
         forgotPasswordButton.setTitle("Forgot password?", for: .normal)
         forgotPasswordButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
@@ -211,8 +183,24 @@ class LoginViewController: UIViewController {
     }
     
     @objc func signIn() {
-        print("hello")
         guard let email = emailField.text, let password = passwordField.text else { return }
-           login(email: email, password: password)
+        NetworkManager.shared.login(email: email, password: password) { token, error in
+            if let error = error {
+                print("Request failed with error: \(error)")
+                let alertController = UIAlertController(title: "Error", message: "Invalid email or password.", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default))
+                self.present(alertController, animated: true)
+            } else if let token = token {
+                UserDefaults.standard.set(token, forKey: "jwtToken")
+                let allRoomsViewController = AllRoomsViewController()
+                self.navigationController?.pushViewController(allRoomsViewController, animated: true)
+            } else {
+                // Сообщение об ошибке входа
+                let alertController = UIAlertController(title: "Error", message: "Invalid email or password.", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default))
+                self.present(alertController, animated: true)
+            }
+        }
     }
+
 }
