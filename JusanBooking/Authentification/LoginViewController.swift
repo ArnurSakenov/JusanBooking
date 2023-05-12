@@ -184,23 +184,25 @@ class LoginViewController: UIViewController {
     
     @objc func signIn() {
         guard let email = emailField.text, let password = passwordField.text else { return }
-        NetworkManager.shared.login(email: email, password: password) { token, error in
+        NetworkManager.shared.login(email: email, password: password) { token, userId, error in
+            print(token)
             if let error = error {
                 print("Request failed with error: \(error)")
                 let alertController = UIAlertController(title: "Error", message: "Invalid email or password.", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: .default))
                 self.present(alertController, animated: true)
-            } else if let token = token {
+            } else if let token = token, let userId = userId {
                 UserDefaults.standard.set(token, forKey: "jwtToken")
+                UserDefaults.standard.set(userId, forKey: "userId") // Save userId in UserDefaults
                 let allRoomsViewController = AllRoomsViewController()
                 self.navigationController?.pushViewController(allRoomsViewController, animated: true)
             } else {
-                // Сообщение об ошибке входа
                 let alertController = UIAlertController(title: "Error", message: "Invalid email or password.", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: .default))
                 self.present(alertController, animated: true)
             }
         }
     }
+
 
 }

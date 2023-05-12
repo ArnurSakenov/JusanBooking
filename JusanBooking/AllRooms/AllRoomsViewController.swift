@@ -19,6 +19,10 @@ final class AllRoomsViewController: UIViewController {
         fetchRooms()
         setConstraints()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationItem.hidesBackButton = true
+    }
     private let tableView: UITableView  = {
         let table = UITableView()
         table.backgroundColor = #colorLiteral(red: 0.06831727177, green: 0.09892369062, blue: 0.1742413342, alpha: 1)
@@ -33,20 +37,20 @@ final class AllRoomsViewController: UIViewController {
     }
     var rooms = [RoomDTO]()
     private func fetchRooms() {
-            let defaults = UserDefaults.standard
-            let token = defaults.string(forKey: "jwtToken") ?? ""
-            print(token)
-            NetworkManager.shared.fetchRooms(token: token) { (rooms, error) in
-                guard let fetchedRooms = rooms else {
-                    print("Error fetching rooms: \(String(describing: error))")
-                    return
-                }
-                self.rooms = fetchedRooms
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+        let defaults = UserDefaults.standard
+        let token = defaults.string(forKey: "jwtToken") ?? ""
+        
+        NetworkManager.shared.fetchRooms(id: 1, email: "admin@mail.ru") { (rooms, error) in
+            guard let fetchedRooms = rooms else {
+                print("Error fetching rooms: \(String(describing: error))")
+                return
+            }
+            self.rooms = fetchedRooms
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
         }
+    }
     private func setConstraints(){
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
@@ -59,22 +63,26 @@ extension AllRoomsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard  let cell = tableView.dequeueReusableCell(withIdentifier: AllRoomsTableViewCell.identifier, for: indexPath) as? AllRoomsTableViewCell else {return UITableViewCell()}
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AllRoomsTableViewCell.identifier, for: indexPath) as? AllRoomsTableViewCell else {return UITableViewCell()}
-           let room = rooms[indexPath.row]
+        let room = rooms[indexPath.row]
         if let url = URL(string: room.photos[0].name) {
-            // использовать url здесь
             
-            cell.configure(roomImageUrl: url, roomNumber: "\(room.id)", capacity: "\(room.capacity)", floor: "\(room.floor)")}
-           cell.backgroundColor = #colorLiteral(red: 0.06831727177, green: 0.09892369062, blue: 0.1742413342, alpha: 1)
-           return cell
-       
+            cell.configure(roomImageUrl: url, roomNumber: "\(room.id)", capacity: "\(room.capacity)", floor: "\(room.floor)")
+        }
+        cell.backgroundColor = #colorLiteral(red: 0.06831727177, green: 0.09892369062, blue: 0.1742413342, alpha: 1)
+        return cell
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 250
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigationController?.pushViewController(RoomDetailslViewController(), animated: true)
+        let roomDetailsVC = RoomDetailslViewController()
+        roomDetailsVC.roomId = rooms[indexPath.row].id
+        
+        navigationController?.pushViewController(roomDetailsVC, animated: true)
     }
+    
     
 }

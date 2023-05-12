@@ -8,7 +8,8 @@
 import UIKit
 
 class RoomDetailslViewController: UIViewController {
-
+    var roomId: Int?
+        var roomDetail: RoomDetailResponse?
     override func viewDidLoad() {
         super.viewDidLoad()
         setSubviews()
@@ -16,11 +17,48 @@ class RoomDetailslViewController: UIViewController {
         view.backgroundColor = #colorLiteral(red: 0.06831727177, green: 0.09892369062, blue: 0.1742413342, alpha: 1)
         roomImageView.image = UIImage(named: "coworking1")
      
-      
+        if let id = roomId {
+                   NetworkManager.shared.getRoomDetail(id: id) { [weak self] result in
+                       switch result {
+                       case .success(let roomDetail):
+                           DispatchQueue.main.async {
+                               self?.roomDetail = roomDetail
+                               self?.updateUIWithRoomDetail()
+                           }
+                       case .failure(let error):
+                           print(error.localizedDescription)
+                       }
+                   }
+               }
         
         
       
     }
+    func updateUIWithRoomDetail() {
+        guard let roomDetail = self.roomDetail else {
+            return
+        }
+        
+        // Обновляем метки данными комнаты
+       
+        print( "Room: \(roomDetail.id)")
+               print("Category: \(roomDetail.type)")
+                     print( "Capacity: \(roomDetail.capacity)")
+         print("Floor: \(roomDetail.floor)")
+        roomNumberLabel.text = "Room: \(roomDetail.id)"
+        roomCategoryLabel.text = "Category: \(roomDetail.type)"
+        capacityLabel.text = "Capacity: \(roomDetail.capacity)"
+        floorLabel.text = "Floor: \(roomDetail.floor)"
+        
+        // Если у комнаты есть фотографии, загружаем первую
+        if let firstPhoto = roomDetail.photos.first {
+            roomImageView.image = UIImage(named: firstPhoto.name) // или загрузите изображение из URL, если это URL
+        }
+        
+        // Обновляем данные таблицы
+        reservationTableView.reloadData()
+    }
+
     private let bookingButton: UIButton = {
         let bookingButton = UIButton()
         bookingButton.setTitle("BOOK THIS ROOM", for: .normal)
@@ -31,9 +69,13 @@ class RoomDetailslViewController: UIViewController {
        bookingButton.addTarget(self, action: #selector(singIn), for: .touchUpInside)
         return bookingButton
     }()
-    @objc func singIn(){
-        navigationController?.pushViewController(BookingViewController(), animated: true)
+    @objc func singIn() {
+        if let roomId = roomId {
+            let bookingVC = BookingViewController(roomId: roomId)
+            navigationController?.pushViewController(bookingVC, animated: true)
+        }
     }
+
     private let reservationTableView: UITableView  = {
         let table = UITableView()
         table.backgroundColor = #colorLiteral(red: 0.06831727177, green: 0.09892369062, blue: 0.1742413342, alpha: 1)
@@ -157,20 +199,75 @@ class RoomDetailslViewController: UIViewController {
         }
         
     }
+    func convertTimeFormat(inputTime: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+
+        if let date = dateFormatter.date(from: inputTime) {
+            dateFormatter.dateFormat = "h:mm a"
+            let timeString = dateFormatter.string(from: date)
+            return timeString
+        } else {
+            print("Invalid date format!")
+            return ""
+        }
+    }
+
+    func extractDate(inputTime: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        if let date = dateFormatter.date(from: inputTime) {
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            return dateFormatter.string(from: date)
+        } else {
+            return ""
+        }
+    }
+
+    func extractDayOfWeek(inputTime: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        if let date = dateFormatter.date(from: inputTime) {
+            dateFormatter.dateFormat = "EEEE"
+            return dateFormatter.string(from: date)
+        } else {
+            return ""
+        }
+    }
 
 }
+
+
+
+
+
 extension RoomDetailslViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return roomDetail?.reservationList.count ?? 0
     }
+
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard  let cell = tableView.dequeueReusableCell(withIdentifier: RoomDetailsTableViewCell.identifier, for: indexPath) as? RoomDetailsTableViewCell else {return UITableViewCell()}
         
+        if let reservation = roomDetail?.reservationList[indexPath.row] {
+            let startTime = convertTimeFormat(inputTime: reservation.period.startTime)
+            let endTime = convertTimeFormat(inputTime: reservation.period.endTime)
+            let exactDate = extractDate(inputTime: reservation.period.startTime)
+            let dayOfWeek = extractDayOfWeek(inputTime: reservation.period.startTime)
+        
+            cell.configure(dayOfWeek: dayOfWeek, exactDate: exactDate, time: "\(startTime)-\(endTime)", eventType: reservation.description)
+
+            print(dayOfWeek,reservation.period.startTime,reservation.description)
+        }
+        
         cell.backgroundColor = #colorLiteral(red: 0.06831727177, green: 0.09892369062, blue: 0.1742413342, alpha: 1)
-        cell.configure(dayOfWeek: "Monday", exactDate: "19-10-2023", time: "12:30-13:00", eventType: "Lecture")
         return cell
     }
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
     }
