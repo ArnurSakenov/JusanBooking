@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Alamofire
 class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
@@ -139,7 +140,7 @@ class SignUpViewController: UIViewController {
         button.setTitle("Continue", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
         button.setTitleColor(.white, for: .normal)
-        //button.addTarget(nil, action: #selector(verify), for: .touchUpInside)
+        button.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
         button.backgroundColor = #colorLiteral(red: 0.9191874266, green: 0.3177170753, blue: 0.1384931207, alpha: 1)
         button.layer.cornerRadius = 8
         button.clipsToBounds = true
@@ -209,7 +210,34 @@ class SignUpViewController: UIViewController {
         labelStackView.addArrangedSubview(signInButton)
         contentView.addSubview(labelStackView)
     }
-    
+    func register(name: String, surname: String, email: String, password: String) {
+        let parameters = [
+            "name": name,
+            "surname": surname,
+            "email": email,
+            "password": password
+        ]
+        
+        AF.request("http://34.230.74.15:8087/signup", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default)
+            .validate()
+            .response { response in
+                switch response.result {
+                case .success:
+                    print("Registration successful")
+                case let .failure(error):
+                    print(error)
+            }
+        }
+    }
+    @objc func continueButtonTapped() {
+        guard let name = nameField.text, let surname = surnameField.text, let email = emailField.text, let password = passwordField.text else {
+            print("All fields are required")
+            return
+        }
+
+        register(name: name, surname: surname, email: email, password: password)
+    }
+
     func setConstraints() {
         contentView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()

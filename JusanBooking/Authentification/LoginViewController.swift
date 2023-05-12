@@ -7,7 +7,7 @@
 
 import UIKit
 import SnapKit
-
+import Alamofire
 class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
@@ -156,7 +156,38 @@ class LoginViewController: UIViewController {
         configureForgotPasswordButton()
         configureForgotPasswordLabel()
     }
-    
+
+    func login(email: String, password: String) {
+        let parameters: [String: Any] = [
+            "email": email,
+            "password": password
+        ]
+        
+        AF.request("http://34.230.74.15:8087/signin", method: .post, parameters: parameters, encoding: JSONEncoding.default)
+            .responseJSON { response in
+                switch response.result {
+                case .success(let value):
+                    if let JSON = value as? [String: Any] {
+                        if let token = JSON["jwtToken"] as? String {
+                            UserDefaults.standard.set(token, forKey: "jwtToken")
+                            let allRoomsViewController = AllRoomsViewController()
+                            self.navigationController?.pushViewController(allRoomsViewController, animated: true)
+                        } else {
+                            // Сообщение об ошибке входа
+                            let alertController = UIAlertController(title: "Error", message: "Invalid email or password.", preferredStyle: .alert)
+                            alertController.addAction(UIAlertAction(title: "OK", style: .default))
+                            self.present(alertController, animated: true)
+                        }
+                    }
+                case .failure(let error):
+                    print("Request failed with error: \(error)")
+                    let alertController = UIAlertController(title: "Error", message: "Invalid email or password.", preferredStyle: .alert)
+                    alertController.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(alertController, animated: true)
+                }
+            }
+    }
+
     func configureForgotPasswordButton() {
         forgotPasswordButton.setTitle("Forgot password?", for: .normal)
         forgotPasswordButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
@@ -181,7 +212,7 @@ class LoginViewController: UIViewController {
     
     @objc func signIn() {
         print("hello")
-        let forgotPassword = AllRoomsViewController()
-        navigationController?.pushViewController(forgotPassword, animated: true)
+        guard let email = emailField.text, let password = passwordField.text else { return }
+           login(email: email, password: password)
     }
 }

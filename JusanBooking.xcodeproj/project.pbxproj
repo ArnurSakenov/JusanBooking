@@ -16,6 +16,10 @@
 		18202C9C2A068F680020D1BA /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18202C9B2A068F680020D1BA /* RegistrationViewController.swift */; };
 		18202C9F2A0691A10020D1BA /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 18202C9E2A0691A10020D1BA /* SnapKit */; };
 		18F9CDB72A07B2FC008BBD37 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F9CDB62A07B2FC008BBD37 /* WelcomeViewController.swift */; };
+		5F22885B2A0CE5C800B0FC9E /* BookingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F22885A2A0CE5C800B0FC9E /* BookingViewController.swift */; };
+		5F22885E2A0D243700B0FC9E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 5F22885D2A0D243700B0FC9E /* Alamofire */; };
+		5F2288602A0D373600B0FC9E /* AllRoomsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F22885F2A0D373600B0FC9E /* AllRoomsModel.swift */; };
+		5F2288632A0D3A6800B0FC9E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5F2288622A0D3A6800B0FC9E /* Kingfisher */; };
 		5F32B19E2A0A74250086DEA5 /* AllRoomsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F32B19D2A0A74250086DEA5 /* AllRoomsTableViewCell.swift */; };
 		5F32B1A02A0A892E0086DEA5 /* RoomDetailslViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F32B19F2A0A892E0086DEA5 /* RoomDetailslViewController.swift */; };
 		5F32B1A62A0A8A4C0086DEA5 /* RoomDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F32B1A52A0A8A4C0086DEA5 /* RoomDetailsTableViewCell.swift */; };
@@ -32,6 +36,8 @@
 		18202C992A068F580020D1BA /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		18202C9B2A068F680020D1BA /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		18F9CDB62A07B2FC008BBD37 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		5F22885A2A0CE5C800B0FC9E /* BookingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewController.swift; sourceTree = "<group>"; };
+		5F22885F2A0D373600B0FC9E /* AllRoomsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRoomsModel.swift; sourceTree = "<group>"; };
 		5F32B19D2A0A74250086DEA5 /* AllRoomsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRoomsTableViewCell.swift; sourceTree = "<group>"; };
 		5F32B19F2A0A892E0086DEA5 /* RoomDetailslViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDetailslViewController.swift; sourceTree = "<group>"; };
 		5F32B1A52A0A8A4C0086DEA5 /* RoomDetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDetailsTableViewCell.swift; sourceTree = "<group>"; };
@@ -42,7 +48,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F2288632A0D3A6800B0FC9E /* Kingfisher in Frameworks */,
 				18202C9F2A0691A10020D1BA /* SnapKit in Frameworks */,
+				5F22885E2A0D243700B0FC9E /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +76,7 @@
 		18202C842A06807B0020D1BA /* JusanBooking */ = {
 			isa = PBXGroup;
 			children = (
+				5F2288592A0CE5AE00B0FC9E /* Booking */,
 				5F32B1A42A0A8A010086DEA5 /* Application */,
 				18F9CDB62A07B2FC008BBD37 /* WelcomeViewController.swift */,
 				5F32B1A32A0A89EB0086DEA5 /* Authentification */,
@@ -80,11 +89,20 @@
 			path = JusanBooking;
 			sourceTree = "<group>";
 		};
+		5F2288592A0CE5AE00B0FC9E /* Booking */ = {
+			isa = PBXGroup;
+			children = (
+				5F22885A2A0CE5C800B0FC9E /* BookingViewController.swift */,
+			);
+			path = Booking;
+			sourceTree = "<group>";
+		};
 		5F32B1A12A0A89D30086DEA5 /* AllRooms */ = {
 			isa = PBXGroup;
 			children = (
 				18202C892A06807B0020D1BA /* AllRoomsViewController.swift */,
 				5F32B19D2A0A74250086DEA5 /* AllRoomsTableViewCell.swift */,
+				5F22885F2A0D373600B0FC9E /* AllRoomsModel.swift */,
 			);
 			path = AllRooms;
 			sourceTree = "<group>";
@@ -134,6 +152,8 @@
 			name = JusanBooking;
 			packageProductDependencies = (
 				18202C9E2A0691A10020D1BA /* SnapKit */,
+				5F22885D2A0D243700B0FC9E /* Alamofire */,
+				5F2288622A0D3A6800B0FC9E /* Kingfisher */,
 			);
 			productName = JusanBooking;
 			productReference = 18202C822A06807B0020D1BA /* JusanBooking.app */;
@@ -165,6 +185,8 @@
 			mainGroup = 18202C792A06807B0020D1BA;
 			packageReferences = (
 				18202C9D2A0691A10020D1BA /* XCRemoteSwiftPackageReference "SnapKit" */,
+				5F22885C2A0D243700B0FC9E /* XCRemoteSwiftPackageReference "Alamofire" */,
+				5F2288612A0D3A6800B0FC9E /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 18202C832A06807B0020D1BA /* Products */;
 			projectDirPath = "";
@@ -199,7 +221,9 @@
 				18202C862A06807B0020D1BA /* AppDelegate.swift in Sources */,
 				18F9CDB72A07B2FC008BBD37 /* WelcomeViewController.swift in Sources */,
 				18202C882A06807B0020D1BA /* SceneDelegate.swift in Sources */,
+				5F2288602A0D373600B0FC9E /* AllRoomsModel.swift in Sources */,
 				5F32B19E2A0A74250086DEA5 /* AllRoomsTableViewCell.swift in Sources */,
+				5F22885B2A0CE5C800B0FC9E /* BookingViewController.swift in Sources */,
 				18202C9C2A068F680020D1BA /* RegistrationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -418,6 +442,22 @@
 				version = 5.6.0;
 			};
 		};
+		5F22885C2A0D243700B0FC9E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = exactVersion;
+				version = 5.7.1;
+			};
+		};
+		5F2288612A0D3A6800B0FC9E /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = exactVersion;
+				version = 7.6.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -425,6 +465,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 18202C9D2A0691A10020D1BA /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		5F22885D2A0D243700B0FC9E /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5F22885C2A0D243700B0FC9E /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		5F2288622A0D3A6800B0FC9E /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5F2288612A0D3A6800B0FC9E /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -28,9 +28,12 @@ class RoomDetailslViewController: UIViewController {
         bookingButton.setTitleColor(.white, for: .normal)
         bookingButton.backgroundColor = #colorLiteral(red: 0.9191874266, green: 0.3177170753, blue: 0.1384931207, alpha: 1)
         bookingButton.layer.cornerRadius = 8
-//        bookingButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
+       bookingButton.addTarget(self, action: #selector(singIn), for: .touchUpInside)
         return bookingButton
     }()
+    @objc func singIn(){
+        navigationController?.pushViewController(BookingViewController(), animated: true)
+    }
     private let reservationTableView: UITableView  = {
         let table = UITableView()
         table.backgroundColor = #colorLiteral(red: 0.06831727177, green: 0.09892369062, blue: 0.1742413342, alpha: 1)

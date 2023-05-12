@@ -7,7 +7,7 @@
 
 import UIKit
 import UIKit
-
+import Kingfisher
 class AllRoomsTableViewCell: UITableViewCell {
     static let identifier = "allroomstableviewcell"
     
@@ -85,10 +85,11 @@ class AllRoomsTableViewCell: UITableViewCell {
         }
     }
     
-    func configure(roomImage: UIImage, roomNumber: String, capacity: String, floor: String) {
-        roomImageView.image = roomImage
+    func configure(roomImageUrl: URL, roomNumber: String, capacity: String, floor: String) {
+        roomImageView.kf.setImage(with: roomImageUrl)
         roomNumberLabel.text = "Room \(roomNumber)"
         capacityLabel.text = "Capacity: \(capacity)"
         floorLabel.text = "Floor: \(floor)"
     }
+
 }
