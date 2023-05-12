@@ -57,11 +57,16 @@ class NetworkManager {
 
     func fetchRooms(token: String, completion: @escaping ([RoomDTO]?, Error?) -> Void) {
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(token)",
+//            "Authorization": "Bearer \(token)",
+           "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLnJ1Iiwic2NvcGUiOiJhcHAiLCJpYXQiOjE2ODM5MDMyODMsImV4cCI6MTY4Mzk4OTY4M30.z7s89u4jh6-pwgxt9S-V-NvzbJy2MDYCgesuWphRQ-w",
             "Accept": "application/json"
         ]
-        
-        AF.request("http://44.202.105.221:8087/rooms?id=0&email=string", headers: headers).response { response in
+        let parameters: Parameters = [
+               "id": 1,
+               "email": "admin@mail.ru"
+           ]
+
+        AF.request("http://44.202.105.221:8087/rooms?id=0&email=string",parameters: parameters, headers: headers).response { response in
             guard let data = response.data else {
                 completion(nil, NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey : "No data received."]))
                 return

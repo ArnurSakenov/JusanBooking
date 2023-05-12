@@ -35,7 +35,7 @@ final class AllRoomsViewController: UIViewController {
     private func fetchRooms() {
             let defaults = UserDefaults.standard
             let token = defaults.string(forKey: "jwtToken") ?? ""
-            
+            print(token)
             NetworkManager.shared.fetchRooms(token: token) { (rooms, error) in
                 guard let fetchedRooms = rooms else {
                     print("Error fetching rooms: \(String(describing: error))")
@@ -62,7 +62,7 @@ extension AllRoomsViewController: UITableViewDelegate, UITableViewDataSource {
         guard  let cell = tableView.dequeueReusableCell(withIdentifier: AllRoomsTableViewCell.identifier, for: indexPath) as? AllRoomsTableViewCell else {return UITableViewCell()}
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AllRoomsTableViewCell.identifier, for: indexPath) as? AllRoomsTableViewCell else {return UITableViewCell()}
            let room = rooms[indexPath.row]
-        if let url = URL(string: room.photo) {
+        if let url = URL(string: room.photos[0].name) {
             // использовать url здесь
             
             cell.configure(roomImageUrl: url, roomNumber: "\(room.id)", capacity: "\(room.capacity)", floor: "\(room.floor)")}
