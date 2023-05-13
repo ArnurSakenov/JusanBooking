@@ -213,6 +213,7 @@ class SignUpViewController: UIViewController {
         NetworkManager.shared.register(name: name, surname: surname, email: email, password: password) { success, error in
             if success {
                 print("Registration successful")
+                self.navigationController?.pushViewController(LoginViewController(), animated: true)
             } else if let error = error {
                 print("Registration failed: \(error)")
             }
