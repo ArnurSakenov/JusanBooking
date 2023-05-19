@@ -27,10 +27,9 @@ struct RoomDTO: Decodable {
         let description: String
         
         struct Period: Decodable {
-            let clientId: Int
-            let roomId: Int
-            let startTime: Date
-            let endTime: Date
-        }
+                    let clientId: Int
+                    let startTime: Date
+                    let endTime: Date
+                }
     }
 }
